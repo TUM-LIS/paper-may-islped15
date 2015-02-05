@@ -13,15 +13,6 @@
 }
 
 
-
-
-
-% use for special paper notices
-%\IEEEspecialpapernotice{(Invited Paper)}
-
-
-
-
 % make the title area
 \maketitle
 
@@ -30,26 +21,7 @@
 %\boldmath
 The abstract goes here.
 \end{abstract}
-% IEEEtran.cls defaults to using nonbold math in the Abstract.
-% This preserves the distinction between vectors and scalars. However,
-% if the conference you are submitting to favors bold math in the abstract,
-% then you can use LaTeX's standard command \boldmath at the very start
-% of the abstract to achieve this. Many IEEE journals/conferences frown on
-% math in the abstract anyway.
 
-% no keywords
-
-
-
-
-% For peer review papers, you can put extra information on the cover
-% page as needed:
-% \ifCLASSOPTIONpeerreview
-% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
-% \fi
-%
-% For peerreview papers, this IEEEtran command inserts a page break and
-% creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
 
@@ -58,13 +30,26 @@ The abstract goes here.
 \subsection{Approximate Computing}
 \subsection{Related Work}
 
-\section{Implementation}
+\section{Methodology}
 \subsection{faultify - Probability-aware Fault Emulation}
 \subsection{Application-reasoned Approximation }
 \subsection{Approximation of Sequential Circuits}
 
-\section{Evaluation}
-\subsection{Case-study}
+\section{Experimental Results}
+\begin{tabular} {| l | l | c | c |}
+\hline
+Name & Description & Gates & Flip-flops \\
+\hline\hline
+FIR & 16-tap FIR filter & xx & xx \\
+IIR & 8-tap IIR filter & xx &xx \\
+DCT4 & 4-input DCT & xx & xx \\
+DCT8 & 8-Input DCT & xx & xx \\
+fpu100 & 32-bit floating point unit & xx & xx \\
+QR & QR decomposition & xx & xx \\
+vitdec & Viterbi decoder (131,81) & xx & xx \\
+\hline
+\end{tabular}
+\subsection{Energy/Area}
 
 
 
