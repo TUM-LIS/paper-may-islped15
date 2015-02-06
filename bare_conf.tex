@@ -1,4 +1,5 @@
 \documentclass[conference]{IEEEtran}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -32,10 +33,44 @@ Most existing approaches only consider combinational circuits. Compared to exist
 \subsection*{Approximate Computing}
 \subsection*{Related Work}
 
+
+
+
+
+
 \section{Methodology}
 \subsection{faultify - Probability-aware Fault Emulation}
 \subsection{Application-reasoned Approximation }
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/metrics_qr}
+  \caption{Tolerable imprecision of a QR decomposition, part of a 8x8 MIMO zero-forcing equalizer, for different signal qualities and a target BER=$0.01$}
+  \label{fig:metrics_qr}
+\end{figure}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/metrics_sobel}
+  \caption{Tolerable imprecision of a \emph{sobel} filter for different target qualities (PSNR)}
+  \label{fig:metrics_sobel}
+\end{figure}
 \subsection{Approximation of Sequential Circuits}
+% Hier keine Figures, verweis auf exp. results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Experimental Results}
 \begin{tabular} {| l | l | c | c |}
@@ -56,7 +91,24 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 \subsubsection{ASIC target}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Conclusion}
+
+
+
+
 
 
 \section*{Acknowledgment}
