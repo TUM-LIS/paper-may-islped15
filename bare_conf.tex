@@ -1,6 +1,6 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{graphicx}
-
+\usepackage{soul}
 \begin{document}
 
 \title{Realization of Fine-grained Sequential Approximate Circuits using Fault Emulation}
@@ -31,6 +31,7 @@ Most existing approaches only consider combinational circuits. Compared to exist
 
 \section{Introduction}
 \subsection*{Approximate Computing}
+\hl{hw accelerator vs. approx. software executed on unreliable components fpus.etc}
 \subsection*{Related Work}
 
 
@@ -40,7 +41,11 @@ Most existing approaches only consider combinational circuits. Compared to exist
 
 \section{Methodology}
 \subsection{faultify - Probability-aware Fault Emulation}
+\hl{grafik; probability-awareness}
+
+
 \subsection{Application-reasoned Approximation }
+Clearly it is necessary to reason the required precision of a circuit, i.e. the maximum tolerable error probability of the output pins, from the application that utilizes that particular circuit. 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=.5\textwidth]{figs/metrics_qr}
@@ -53,8 +58,16 @@ Most existing approaches only consider combinational circuits. Compared to exist
   \caption{Tolerable imprecision of a \emph{sobel} filter for different target qualities (PSNR)}
   \label{fig:metrics_sobel}
 \end{figure}
+
+
 \subsection{Approximation of Sequential Circuits}
 % Hier keine Figures, verweis auf exp. results
+\hl{algorithm, warum keine optimierung}
+\subsubsection{Data-path Separation}
+\subsubsection{High Variance Registers}
+\subsubsection{Coarse-grained Approximation}
+\subsubsection{Fine-grained Approximation}
+
 
 
 
@@ -73,6 +86,7 @@ Most existing approaches only consider combinational circuits. Compared to exist
 
 
 \section{Experimental Results}
+\hl{Explain Circuit}\\
 \begin{tabular} {| l | l | c | c |}
 \hline
 Name & Description & Gates & Flip-flops \\
@@ -86,10 +100,10 @@ QR & QR decomposition & xx & xx \\
 vitdec & Viterbi decoder (131,81) & xx & xx \\
 \hline
 \end{tabular}
-\subsection{Energy/Area}
-\subsubsection{FPGA target}
-\subsubsection{ASIC target}
-
+\subsection{FPGA target}
+\hl{power/area table}
+\subsection{ASIC target}
+\hl{power area table}
 
 
 
