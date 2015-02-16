@@ -2,6 +2,10 @@
 \usepackage{graphicx}
 \usepackage{soul}
 \usepackage{todonotes}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
 \begin{document}
 
 \title{Realization of Fine-grained Sequential Approximate Circuits using Fault Emulation}
@@ -96,7 +100,31 @@ The first step can be seen as a separation of data- and control-path. The idea i
 \subsubsection{High Variance Registers}
 The second step pointed out to be necessary in case of the ``QR'' approximation. We observed that the same set of applied error probabilities resulted in a highly varying output error probability. Although the errors could only be observed at data-path outputs, this behavior makes it impossible to reliably approximate a circuit. In order to trust the approximation, the results have to be reproducable, which is why these elements have to be excluded from the list of candidates as well. We are doing this using the same method as for the data-path separation, but this time we are calculating the variance over multiple runs. If the variance is above a certain threshold the register will be discarded. 
 \subsubsection{Coarse-grained Approximation}
-The third step is the first approximation step. In this step we are identifying those registers that can be completely pruned.
+The third step is the first approximation step. In this step we are identifying those registers that can be completely pruned. As a consequence, all elements prior to that, that only influence that one register can be pruned as well. Hence, this is the step that will save most power in the end. As we have excluded all inappropriate elements in the previous steps, this step is straightforward, as shown in Algorithm \ref{alg:coarse_approximation}. The subset of candidates is denoted as the vector $\mathbf{c} = \{c_1,c_2,\ldots,c_{o}\}$.
+\begin{algorithm}
+  \caption{Coarse Approximation}\label{alg:coarse_approximation}
+  \begin{algorithmic}[1]
+    \Procedure{CoarseApproximation}{$\mathbf{c},\mathbf{p_{e,max}}$}
+    \State $\mathbf{c_{coarse}} = \{\}$
+    \For{$i\gets 1,o$}
+    \State $\mathbf{p_e(i)} \gets 0.0$
+    \EndFor
+
+    \For{$i\gets 1, o$}
+    \State $\mathbf{p_e}(i) \gets 0.5$
+    \State $\mathbf{p_{e,outputs}}$ = injectFaults($\mathbf{p_e}$)
+    \If {$\mathbf{p_{e,outputs}} > \mathbf{p_{e,max}}$}
+    \State $\mathbf{p_e}(i) \gets 0.0$
+    \Else
+    \State appendToVector($\mathbf{c_{coarse}}$,$c_i$) 
+
+    \EndIf
+    \EndFor
+
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+We are simply ``switching off'', hence, injecting faults with an error probability of $p_e=0.5$, one register by another and check whether the output error constraint is violated or not. If it is, we switch back on that register, and continue with the next one. Due to the large error probability of the injected faults, this step can usually be performed very fast. Only a few million cycles have to be emulated in order to get a reliable result.
 \subsubsection{Fine-grained Approximation}
 
 
@@ -135,6 +163,19 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 
 \subsection{FPGA target}
 \hl{power/area table}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/optimization_qr}
+  \caption{Approximation result for benchmark circuit ``QR'', showing the maximum tolerable error probability at each register}
+  \label{fig:optimization_qr}
+\end{figure}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/optimization_fpu}
+  \caption{Approximation result for benchmark circuit ``fpu''}
+  \label{fig:optimization_fpu}
+\end{figure}
+
 \subsection{ASIC target}
 \hl{power area table}
 \subsection{Comparison}
