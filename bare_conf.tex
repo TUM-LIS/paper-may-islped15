@@ -2,6 +2,10 @@
 \usepackage{graphicx}
 \usepackage{soul}
 \usepackage{todonotes}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
 \begin{document}
 
 \title{Realization of Fine-grained Sequential Approximate Circuits using Fault Emulation}
@@ -44,7 +48,7 @@ In order to solve these limitations we introduced bit-flip probabilities to the 
 \subsubsection*{Contribution of this Work}
  In this work we are presenting and evaluating a methodology in order to find out which parts of a sequential circuit can be approximated and to what extent. The approach is automated wherever it is possible. Given a netlist and a set of quality constraints our tool automatically generates the information of what bit-flip probability is allowed at which register, without violating the output constraint. The approach is fine-granular. I.e. we can not only model the ``integer'' pruning of circuit elements, but also model a bit-flip probability. Integer approximations, i.e. if parts of the circuit can be pruned, can then be implemented directly. Non-integer information can then be used generate approximate combinational logic, e.g. based on aggressive power-scaling, using existing solutions.
 
-The remainder of this paper is organized as follows: In Section \ref{sec:methodology} we are explaining our methodology in detail. In Section \ref{sec:experimental_results} we will evaluate our approach with various realistic benchmark circuits and compare the performance with other approaches. And finally, in Section \ref{sec:conclusion} we will conclude our work. 
+The remainder of this paper is organized as follows: In Section \ref{sec:methodology} we are explaining our methodology in detail. In Section \ref{sec:experimental_results} we will evaluate our approach with various realistic benchmark circuits and compare the performance with other approaches. And finally, in Section \ref{sec:conclusion} we will conclude our work.
 
 
 
@@ -60,19 +64,19 @@ The remainder of this paper is organized as follows: In Section \ref{sec:methodo
   \label{fig:faultify_block}
 \end{figure}
 \hl{missing taht we compare cut and goc in every cycle!!!}
-In our previous work we have developed an FPGA-based fault emulation system. A block diagram can be seen in Figure \ref{fig:faultify_block}. Emulation means that the circuit we want to analyze is mapped to an FPGA, no matter if it was intended for an ASIC or an FPGA as target technology. In order to make the emulation as realistic as possible, the circuits have to emulated, after being synthesized for their specific target technology. In case of an ASIC target, primitives of the ASIC library have to be replaced by corresponding FPGA primitives in order to map the circuit onto the emulating FPGA. In case of an FPGA target usually no adaptions have to be made due to the interoperability of third party synthesis tools concerning FPGA vendors and their generations. Faults, hence bit-flips, are injected at register level. By doing so we are emulating faults in the ``combinational cloud'' before the register. This gives us a reasonable trade-off between complexity and abstraction. In order to perform the injection the netlist of a synthesized circuit has to be modified so that specific nets can be manipulated. We developed a tool that automatically inserts \emph{XOR} gates at every register of a Verilog netlist. Additionally it routes one of the XOR inputs to the toplevel. With this wire a bit can then be simply flipped. The emulation is probability-aware. Instead of injecting single faults into registers and trying to observe their effects on the output, we inject faults at all registers at once based on assigning probabilities. Compared to other implementations our injection is hardware-assisted. To each of these wires, allowing to flip bits, one ``Probabilistic bit-error generator'', is assigned. The purpose of such a generator is to generate a ``1'' based on a assigned probability. Clearly, this hardware assistance results in a large hardware overhead. However it also, allows us to run the emulation at real-time, while maintaining the flexibility to assign one dedicated error-probability to each register in the circuit. Emulation speed is an essential factor, especially as we are injecting faults based on (usually small) probabilities, in order to cover a large state-space in a reasonable amount of time. While the system was initially intended to model radiation based SEUs, we now propose to use it for a variety of approximation methods. Basically all effects can be modeled as an error probability. 
+In our previous work we have developed an FPGA-based fault emulation system. A block diagram can be seen in Figure \ref{fig:faultify_block}. Emulation means that the circuit we want to analyze is mapped to an FPGA, no matter if it was intended for an ASIC or an FPGA as target technology. In order to make the emulation as realistic as possible, the circuits have to emulated, after being synthesized for their specific target technology. In case of an ASIC target, primitives of the ASIC library have to be replaced by corresponding FPGA primitives in order to map the circuit onto the emulating FPGA. In case of an FPGA target usually no adaptions have to be made due to the interoperability of third party synthesis tools concerning FPGA vendors and their generations. Faults, hence bit-flips, are injected at register level. By doing so we are emulating faults in the ``combinational cloud'' before the register. This gives us a reasonable trade-off between complexity and abstraction. In order to perform the injection the netlist of a synthesized circuit has to be modified so that specific nets can be manipulated. We developed a tool that automatically inserts \emph{XOR} gates at every register of a Verilog netlist. Additionally it routes one of the XOR inputs to the toplevel. With this wire a bit can then be simply flipped. The emulation is probability-aware. Instead of injecting single faults into registers and trying to observe their effects on the output, we inject faults at all registers at once based on assigning probabilities. Compared to other implementations our injection is hardware-assisted. To each of these wires, allowing to flip bits, one ``Probabilistic bit-error generator'', is assigned. The purpose of such a generator is to generate a ``1'' based on a assigned probability. Clearly, this hardware assistance results in a large hardware overhead. However it also, allows us to run the emulation at real-time, while maintaining the flexibility to assign one dedicated error-probability to each register in the circuit. Emulation speed is an essential factor, especially as we are injecting faults based on (usually small) probabilities, in order to cover a large state-space in a reasonable amount of time. While the system was initially intended to model radiation based SEUs, we now propose to use it for a variety of approximation methods. Basically all effects can be modeled as an error probability.
 \begin{LaTeXdescription}
 \item[Voltage Over-scaling] For instance, Voltage-overscaling results in an increased probability of timing violations. The effects as well as the probability of the violation are dependent on the path through the combinational logic. Hence, each combinational logic has to be modeled by a different error probability at the register input.
 \item[Circuit Pruning] Circuit pruning, hence, reducing the precision of a circuit by removing parts of it, can also be easily modeled. Assuming a switching activity of $\alpha_{01}=0.5$ we can assign an error probability $p_e=0.5$ to model the pruning of that register. Even if the switching activity does not equal $0.5$, which is usually the case, we can determine the correct $\alpha_{01}$ of that path using simulations and assign the corresponding $p_e=\alpha_{01}$ to it.
 \item [Redundancy Omission] And finally if we intend to omit redundancy we can model the effect by assigning the soft-error rate to the register.
 \end{LaTeXdescription}
-Using the FPGA-based emulation system as a vehicle and the algorithms presented in the following we can determine the maximum error probability of each register, given a required QoS. This information can then be used to evaluate which approximation method can be applied where and to which level.  
+Using the FPGA-based emulation system as a vehicle and the algorithms presented in the following we can determine the maximum error probability of each register, given a required QoS. This information can then be used to evaluate which approximation method can be applied where and to which level.
 
 
 \subsection{Application-reasoned Approximation}
 Clearly it is necessary to reason the required precision of a circuit, i.e. the maximum tolerable error probability of the output pins, from the application that utilizes that particular circuit. We picked out two exemplary applications to clarify this need. Both applications will also be used in Section \ref{sec:experimental_results} to evaluate out methodology. The first application is a generic MIMO wireless communication system. The application exists as a MATLAB model. The model generates random data, transmits it over a noisy communication channel using 8 antennas and a 16 QAM constellation. The signal is received again using 8 antennas, and the receiver tries to recover the original data using a simple ``Zero Forcing Equalizer'' by estimating the communication channel. The equalizer requires to compute the inverse of a $8\times8$ channel matrix. One efficient method to do this involves calculating the ``QR-Decomposition''. In this first example we want to approximate a hardware implementation of QR-Decomposition. The goal is to find a set of operating points for different channels \mbox{$\textrm{SNR [dB]} = \{30; 40; 50\}$} while maintaining a target bit-error rate at the receiver of \mbox{$\textrm{BER}=0.01$}. The second application is a simple ``Sobel Image Filter'', which exists as a regular implementation C. This example differs from the previous one in two major points. First, in this example the input quality is not varying. In this example we want generate approximations for different (in-)accuracies of the filter operation \mbox{$\textrm{PSNR [dB]} = \{30; 40; 50\}$}. And second, the target application is CPU based. I.e. operations would mapped on approximate units in a CPU pipeline. In this application we focus on floating-point operations of a FPU, hence we want to find out what error probability can be allowed at the outputs of a FPU, depending on the operation and the target quality of the sobel filter.
 
-Gathering this information at an algorithmic level unfortunately cannot be automated. Simulation models are required and the required quality of the overall application quality has to be determined. Furthermore for each application, and the type on how the model is implemented, a method to inject faults has to be developed. However, on software-level this is usually a very simple task. Similarly to the algorithm we will introduce in Subsection \ref{subsec:approximation} we propose a two-step approach in order to speed up the simulation. In the first step the integer approximations are determined. Usually this means, that one wants to find out which bits can be ignored. This is a typical fixed-point arithmetic problem, where many methods and tools exist \hl{citation?}. In our two examples, where we only have 2 respectively 3 dimensions this is a simple operation. Starting with the least-significant bit we successively ignored the bits in the model, and observed whether the quality was within the required range. The second step, that we propose is the fine-granular approximation. For the remaining bits, those that cannot be ignored completely, we want to find out what error probability still can be tolerated. In order to do so, we subsequently, register by register, increase the error probability of the output bits. If the quality constraint is satisfied we continue, if not we stop increasing the bit-error rate of that specific output. The result of this approximation at algorithmic level can be seen in Figure \ref{fig:metrics_qr} and \ref{fig:metrics_sobel}. In case of the zero-forcing algorithm, we can see that both for the ``Q'' and the ``R'' part of the decomposition up to 7 bits can be pruned (visible as $p_e=0.5$). This is large number is clearly dependent on the input data and the type of application and might be less for other applications. However, what can also be seen is that there is a dynamics of one bit in both parts, depending on the signal quality. This might seem less in the first place, but on hardware level this multiplies as we will see later. Furthermore, we can see that also for bits that cannot be ignored completely a certain error probability can be tolerated. Even these minor approximations at algorithm level have a large effect on the hardware approximation as we will see later. 
+Gathering this information at an algorithmic level unfortunately cannot be automated. Simulation models are required and the required quality of the overall application quality has to be determined. Furthermore for each application, and the type on how the model is implemented, a method to inject faults has to be developed. However, on software-level this is usually a very simple task. Similarly to the algorithm we will introduce in Subsection \ref{subsec:approximation} we propose a two-step approach in order to speed up the simulation. In the first step the integer approximations are determined. Usually this means, that one wants to find out which bits can be ignored. This is a typical fixed-point arithmetic problem, where many methods and tools exist \hl{citation?}. In our two examples, where we only have 2 respectively 3 dimensions this is a simple operation. Starting with the least-significant bit we successively ignored the bits in the model, and observed whether the quality was within the required range. The second step, that we propose is the fine-granular approximation. For the remaining bits, those that cannot be ignored completely, we want to find out what error probability still can be tolerated. In order to do so, we subsequently, register by register, increase the error probability of the output bits. If the quality constraint is satisfied we continue, if not we stop increasing the bit-error rate of that specific output. The result of this approximation at algorithmic level can be seen in Figure \ref{fig:metrics_qr} and \ref{fig:metrics_sobel}. In case of the zero-forcing algorithm, we can see that both for the ``Q'' and the ``R'' part of the decomposition up to 7 bits can be pruned (visible as $p_e=0.5$). This is large number is clearly dependent on the input data and the type of application and might be less for other applications. However, what can also be seen is that there is a dynamics of one bit in both parts, depending on the signal quality. This might seem less in the first place, but on hardware level this multiplies as we will see later. Furthermore, we can see that also for bits that cannot be ignored completely a certain error probability can be tolerated. Even these minor approximations at algorithm level have a large effect on the hardware approximation as we will see later.
 \begin{figure}[tb]
   \centering
   \includegraphics[width=.5\textwidth]{figs/metrics_qr}
@@ -90,13 +94,37 @@ For the second application, the sobel filter, we can see similar results. The ou
 
 \subsection{Approximation of Sequential Circuits}
 \label{subsec:approximation}
-With the information generated at the algorithm level, one can now start with the actual hardware approximation. We now know what error probabilities can be tolerated at the circuit output pins for a given required application quality. The next step is to find out which registers in the circuit may have which error probability, while satisfying the output constraint. Hence, we are going one step down in the hierarchy. At first, we thought that the difficulty of performing this step is to find out the one approximation that saves most power from a large set off possible approximations. This is why we started solving this problem using evolutionary algorithms, as it can be formulated as a global optimization problem. However, for us it pointed out not to be the best way. First of all it pointed out to be very unreliable due to the stochastic nature of our problem, as the same set of error applied probabilities leads to different results. Even though they are small, these differences sometimes pushed the algorithms in the wrong direction. And second, the run-time was very long, despite the FPGA-accelerated emulation. The methodology we came up with consists of 4 steps. With each step we are eliminating approximation candidates. This makes the final, fine-grained approximation step manageable concerning its complexity.  
+With the information generated at the algorithm level, one can now start with the actual hardware approximation. We now know what error probabilities can be tolerated at the circuit output pins for a given required application quality. The next step is to find out which registers in the circuit may have which error probability, while satisfying the output constraint. Hence, we are going one step down in the hierarchy. At first, we thought that the difficulty of performing this step is to find out the one approximation that saves most power from a large set off possible approximations. This is why we started solving this problem using evolutionary algorithms, as it can be formulated as a global optimization problem. However, for us it pointed out not to be the best way. First of all it pointed out to be very unreliable due to the stochastic nature of our problem, as the same set of error applied probabilities leads to different results. Even though they are small, these differences sometimes pushed the algorithms in the wrong direction. And second, the run-time was very long, despite the FPGA-accelerated emulation. The methodology we came up with consists of 4 steps. With each step we are eliminating approximation candidates. This makes the final, fine-grained approximation step manageable concerning its complexity.
 \subsubsection{Data-path Separation}
 The first step can be seen as a separation of data- and control-path. The idea is to simply exclude all registers from our potential candidates, that have an influence on outputs, where not errors can be tolerated at all. Influencing means that if there is any path from a register to an output, a fault at that register can also be seen at that output. As these outputs are usually control outputs, like address pins, we call this operation data-path separation. This step has to be performed very careful, as every error in the control-path of a circuit, even if it is very unlikely, can have disastrous effects on the functionality of a circuit. The identification of control path-registers is pretty straight-forward. We subsequently inject into each register an error probability of $p_e=0.5$ but only at one at a time, and observe the outputs. If faults could be observed at at least one unwanted output, this register is discarded from the candidates. In order to make this approach prone to false-negative decisions, it ideally has to be performed several times, with a large set of test-vectors.
 \subsubsection{High Variance Registers}
-The second step pointed out to be necessary in case of the ``QR'' approximation. We observed that the same set of applied error probabilities resulted in a highly varying output error probability. Although the errors could only be observed at data-path outputs, this behavior makes it impossible to reliably approximate a circuit. In order to trust the approximation, the results have to be reproducable, which is why these elements have to be excluded from the list of candidates as well. We are doing this using the same method as for the data-path separation, but this time we are calculating the variance over multiple runs. If the variance is above a certain threshold the register will be discarded. 
+The second step pointed out to be necessary in case of the ``QR'' approximation. We observed that the same set of applied error probabilities resulted in a highly varying output error probability. Although the errors could only be observed at data-path outputs, this behavior makes it impossible to reliably approximate a circuit. In order to trust the approximation, the results have to be reproducable, which is why these elements have to be excluded from the list of candidates as well. We are doing this using the same method as for the data-path separation, but this time we are calculating the variance over multiple runs. If the variance is above a certain threshold the register will be discarded.
 \subsubsection{Coarse-grained Approximation}
-The third step is the first approximation step. In this step we are identifying those registers that can be completely pruned.
+The third step is the first approximation step. In this step we are identifying those registers that can be completely pruned. As a consequence, all elements prior to that, that only influence that one register can be pruned as well. Hence, this is the step that will save most power in the end. As we have excluded all inappropriate elements in the previous steps, this step is straightforward, as shown in Algorithm \ref{alg:coarse_approximation}. The subset of candidates is denoted as the vector $\mathbf{c} = \{c_1,c_2,\ldots,c_{o}\}$.
+\begin{algorithm}
+  \caption{Coarse Approximation}\label{alg:coarse_approximation}
+  \begin{algorithmic}[1]
+    \Procedure{CoarseApproximation}{$\mathbf{c},\mathbf{p_{e,max}}$}
+    \State $\mathbf{c_{coarse}} = \{\}$
+    \For{$i\gets 1,o$}
+    \State $\mathbf{p_e(i)} \gets 0.0$
+    \EndFor
+
+    \For{$i\gets 1, o$}
+    \State $\mathbf{p_e}(i) \gets 0.5$
+    \State $\mathbf{p_{e,outputs}}$ = injectFaults($\mathbf{p_e}$)
+    \If {$\mathbf{p_{e,outputs}} > \mathbf{p_{e,max}}$}
+    \State $\mathbf{p_e}(i) \gets 0.0$
+    \Else
+    \State appendToVector($\mathbf{c_{coarse}}$,$c_i$)
+
+    \EndIf
+    \EndFor
+
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+We are simply ``switching off'', hence, injecting faults with an error probability of $p_e=0.5$, one register by another and check whether the output error constraint is violated or not. If it is, we switch back on that register, and continue with the next one. Due to the large error probability of the injected faults, this step can usually be performed very fast. Only a few million cycles have to be emulated in order to get a reliable result.
 \subsubsection{Fine-grained Approximation}
 
 
@@ -132,31 +160,44 @@ QR & QR decomposition & xx & xx \\
 vitdec & Viterbi decoder (131,81) & xx & xx \\
 \hline
 \end{tabular}
+\subsection{Approximation Evaluation}
+\hl{power/area table}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/optimization_qr}
+  \caption{Approximation result for benchmark circuit ``QR'', showing the maximum tolerable error probability at each register}
+  \label{fig:optimization_qr}
+\end{figure}
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=.5\textwidth]{figs/optimization_fpu}
+  \caption{Approximation result for benchmark circuit ``fpu''}
+  \label{fig:optimization_fpu}
+\end{figure}
+\begin{figure}[tb]
+  \centering
+  \missingfigure[figwidth=.5\textwidth]{Power viterbi}
+  \caption{Possible approximation, in terms of tolerated error proabilities, for benchmark circuit ``viterbi'' for varying signal qualities and a target BER=$0.0$}
+  \label{fig:power_viterbi}
+\end{figure}
+
 
 \subsection{Power Evaluation}
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
   \caption{Potential Power-savings for benchmark circuit ``QR'' for varying signal qualities, when peforming 8x8 ZF Equalization}
   \label{fig:power_qr}
 \end{figure}
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \missingfigure[figwidth=.5\textwidth]{Power FPU}
   \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
 
-\begin{figure}[htb]
-  \centering
-  \missingfigure[figwidth=.5\textwidth]{Power viterbi}
-  \caption{Possible approximation, in terms of tolerated error proabilities, for benchmark circuit ``viterbi'' for varying signal qualities and a target BER=$0.0$}
-  \label{fig:power_viterbi}
-\end{figure}
-%\hl{power/area table}
-%\subsection{ASIC target}
-%\hl{power area table}
-\subsection{Comparison}
+
+
 
 
 
@@ -202,5 +243,3 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 
 % that's all folks
 \end{document}
-
-
