@@ -133,10 +133,29 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 \hline
 \end{tabular}
 
-\subsection{FPGA target}
-\hl{power/area table}
-\subsection{ASIC target}
-\hl{power area table}
+\subsection{Power Evaluation}
+\begin{figure}[htb]
+  \centering
+  \missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
+  \caption{Potential Power-savings for benchmark circuit ``QR'' for varying signal qualities, when peforming 8x8 ZF Equalization}
+  \label{fig:power_qr}
+\end{figure}
+\begin{figure}[htb]
+  \centering
+  \missingfigure[figwidth=.5\textwidth]{Power FPU}
+  \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
+  \label{fig:power_fpu}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \missingfigure[figwidth=.5\textwidth]{Power viterbi}
+  \caption{Possible approximation, in terms of tolerated error proabilities, for benchmark circuit ``viterbi'' for varying signal qualities and a target BER=$0.0$}
+  \label{fig:power_viterbi}
+\end{figure}
+%\hl{power/area table}
+%\subsection{ASIC target}
+%\hl{power area table}
 \subsection{Comparison}
 
 
