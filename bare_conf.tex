@@ -105,30 +105,48 @@ The third step is the first approximation step. In this step we are identifying 
   \caption{Coarse Approximation}\label{alg:coarse_approximation}
   \begin{algorithmic}[1]
     \Procedure{CoarseApproximation}{$\mathbf{c},\mathbf{p_{e,max}}$}
-    \State $\mathbf{c_{coarse}} = \{\}$
     \For{$i\gets 1,o$}
     \State $\mathbf{p_e(i)} \gets 0.0$
     \EndFor
 
     \For{$i\gets 1, o$}
-    \State $\mathbf{p_e}(i) \gets 0.5$
+    \State $\mathbf{p_e}(c_i) \gets 0.5$
     \State $\mathbf{p_{e,outputs}}$ = injectFaults($\mathbf{p_e}$)
     \If {$\mathbf{p_{e,outputs}} > \mathbf{p_{e,max}}$}
-    \State $\mathbf{p_e}(i) \gets 0.0$
+    \State $\mathbf{p_e}(c_i) \gets 0.0$
     \Else
-    \State appendToVector($\mathbf{c_{coarse}}$,$c_i$)
-
+    \State AppendToArray($\mathbf{c_{coarse}},i$)
     \EndIf
     \EndFor
-
+    \State \textbf{return} $\mathbf{p_{e,coarse}} \gets \mathbf{p_e}$
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
-We are simply ``switching off'', hence, injecting faults with an error probability of $p_e=0.5$, one register by another and check whether the output error constraint is violated or not. If it is, we switch back on that register, and continue with the next one. Due to the large error probability of the injected faults, this step can usually be performed very fast. Only a few million cycles have to be emulated in order to get a reliable result.
+We are simply ``switching off'', i.e. injecting faults with an error probability of $p_e=0.5$, one register by another and check whether the output error constraint is violated or not. If it is, we switch back on that register, and continue with the next one. Due to the large error probability of the injected faults, this step can usually be performed very fast. Only a few million cycles have to be emulated in order to get a reliable result.
 \subsubsection{Fine-grained Approximation}
-
-
-
+Finally, the last step is the fine-grained approximation. In this step we want to find out which error probability, other than $0.5$, can be tolerated at the circuit registers. We are step-wise raising the applied error probabilities to see if the required constraint is still satisfied. There are two main alternatives in approaching the approximation limit. One is to make the approximation at individual registers as high as possible. The other is to approximate evenly over the registers. If a register is holding data from a large combinational logic block it might be beneficial to tolerate as much approximation as possible. However, we think that tolerating a small approximation at many locations is favorable. Previous work has shown that by tolerating a small error probability, large power savings can be made in logic gates, due to an exponential correlation \hl{palem cite}, which is a clear argument for the second approach. Furthermore, in the former case, usually the whole precision budget is consumed by very few register, which would limit the significance of the while step. At this point it would be possible to use complex optimization algorithms to find the optimal distribution of register precision. However, as mentioned earlier, fur us it pointed out to bring no further improvement. Additionally, due to the first three steps our search-space is already highly sorted-out, so that we can simply iterate over the set of candidates, as shown in Algorithm \ref{alg:fine_approximation}. 
+\begin{algorithm}
+  \caption{Fine Approximation}\label{alg:fine_approximation}
+  \begin{algorithmic}[1]
+    \Procedure{FineApproximation}{$\mathbf{c},\mathbf{c_{coarse}},\mathbf{p_{e,max}},\delta$}
+    \State $\mathbf{c_{fine}} = \mathbf{c} \setminus \mathbf{c_{coarse}}$\Comment{Finding the relative complement}
+    \State $\mathbf{p_e}(\mathbf{c}) \gets 0.0$
+    \State $\mathbf{p_e}(\mathbf{c_{coarse}}) \gets 0.5$
+    \While{(!isEmpty($\mathbf{c_{fine}}$))}
+    \For{$i\gets 1, \textrm{numel}(\mathbf{c_{fine}})$}
+    \State $\mathbf{p_e}(c_{\textrm{fine},i}) \gets \mathbf{p_e}(c_{\textrm{fine},i}) + \delta$
+    \State $\mathbf{p_{e,outputs}}$ = injectFaults($\mathbf{p_e}$)
+    \If {$\mathbf{p_{e,outputs}} > \mathbf{p_{e,max}}$}
+    \State $\mathbf{p_e}(c_{\textrm{fine},i}) \gets \mathbf{p_e}(c_{\textrm{fine},i}) - \delta$
+    \State removeFromArray($\mathbf{c_{fine}},i$)
+    \EndIf
+    \EndFor
+    \EndWhile
+    \State \textbf{return} $\mathbf{p_{e,approximation}}$ = $\mathbf{p_e}$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+The injected error probability of each candidate gets increased step by step by a factor of $\delta$. If the increase led to a constraint violation this particular register is removed from the candidates. This procedure is continued until the set is empty. The result of this operation is a vector containing the maximum error probability for each register in the circuit, where a value of $0.5$ corresponds to coarse-grained approximated registers and other values to fine-grained approximated registers.
 
 
 
