@@ -8,7 +8,7 @@
 
 \begin{document}
 
-\title{Realization of Fine-grained Sequential Approximate Circuits using Fault Emulation}
+\title{Design of Fine-grained Sequential Approximate Circuits using Probability-aware Fault Emulation}
 
 
 \author{\IEEEauthorblockN{BLIND REVIEW}
@@ -27,7 +27,7 @@
 %\boldmath
 Approximate Computing has recently drawn interest due to its promise to substantially decrease the power consumption of integrated circuits. By tolerating a certain incorrectness at a circuit output, it can be operated at a more resource-saving state. For instance, parts of the circuit could be switched off or driven at sub-threshold voltage. Clearly, not all applications are suitable for this approach. Especially applications from the signal and image processing domain are suitable, due to their intrinsic tolerance to imprecision. But even in these circuits, one has to be very careful when and where to approximate a circuit, in order not to violate a minimum QoS.\\
 In this paper we are presenting an approach to generate approximate circuits from existing deterministic implementations. The flow reaches from application-driven QoS definition down to approximated RTL. We are using FPGA-based fault emulation of the circuit in order to find out how faults, i.e. imprecisions in the circuit, affect the circuit behavior.\\
-Most existing approaches only consider combinational circuits. Compared to existing approaches considering sequential circuits, our approach is very fast and accurate due to the FPGA-based emulation. And furthermore, we are able to tune the resulting precision to the defined QoS, in order to bring out the best gain of the approximation.
+Most existing approaches only consider combinational circuits. Compared to existing approaches considering sequential circuits, our approach is very fast and accurate due to the FPGA-based emulation. And furthermore, we are able to fine-granular tune the resulting precision to the defined QoS, in order to bring out the best gain of the approximation.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
