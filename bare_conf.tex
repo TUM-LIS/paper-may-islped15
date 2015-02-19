@@ -57,12 +57,12 @@ The remainder of this paper is organized as follows: In Section \ref{sec:methodo
 \section{Methodology}
 \label{sec:methodology}
 \subsection{Probability-aware Fault Emulation}
-\begin{figure}[htb]
-  \centering
-  \missingfigure[figwidth=.5\textwidth]{Simulator block-diagram}
-  \caption{Block-diagram of the FPGA-based fault emulation system}
-  \label{fig:faultify_block}
-\end{figure}
+%\begin{figure}[htb]
+%  \centering
+%  \missingfigure[figwidth=.5\textwidth]{Simulator block-diagram}
+%  \caption{Block-diagram of the FPGA-based fault emulation system}
+%  \label{fig:faultify_block}
+%\end{figure}
 \hl{missing taht we compare cut and goc in every cycle!!!}
 In our previous work we have developed an FPGA-based fault emulation system. A block diagram can be seen in Figure \ref{fig:faultify_block}. Emulation means that the circuit we want to analyze is mapped to an FPGA, no matter if it was intended for an ASIC or an FPGA as target technology. In order to make the emulation as realistic as possible, the circuits have to emulated, after being synthesized for their specific target technology. In case of an ASIC target, primitives of the ASIC library have to be replaced by corresponding FPGA primitives in order to map the circuit onto the emulating FPGA. In case of an FPGA target usually no adaptions have to be made due to the interoperability of third party synthesis tools concerning FPGA vendors and their generations. Faults, hence bit-flips, are injected at register level. By doing so we are emulating faults in the ``combinational cloud'' before the register. This gives us a reasonable trade-off between complexity and abstraction. In order to perform the injection the netlist of a synthesized circuit has to be modified so that specific nets can be manipulated. We developed a tool that automatically inserts \emph{XOR} gates at every register of a Verilog netlist. Additionally it routes one of the XOR inputs to the toplevel. With this wire a bit can then be simply flipped. The emulation is probability-aware. Instead of injecting single faults into registers and trying to observe their effects on the output, we inject faults at all registers at once based on assigning probabilities. Compared to other implementations our injection is hardware-assisted. To each of these wires, allowing to flip bits, one ``Probabilistic bit-error generator'', is assigned. The purpose of such a generator is to generate a ``1'' based on a assigned probability. Clearly, this hardware assistance results in a large hardware overhead. However it also, allows us to run the emulation at real-time, while maintaining the flexibility to assign one dedicated error-probability to each register in the circuit. Emulation speed is an essential factor, especially as we are injecting faults based on (usually small) probabilities, in order to cover a large state-space in a reasonable amount of time. While the system was initially intended to model radiation based SEUs, we now propose to use it for a variety of approximation methods. Basically all effects can be modeled as an error probability.
 \begin{LaTeXdescription}
@@ -74,6 +74,7 @@ Using the FPGA-based emulation system as a vehicle and the algorithms presented 
 
 
 \subsection{Application-reasoned Approximation}
+\label{subsec:application_reasoned}
 Clearly it is necessary to reason the required precision of a circuit, i.e. the maximum tolerable error probability of the output pins, from the application that utilizes that particular circuit. We picked out two exemplary applications to clarify this need. Both applications will also be used in Section \ref{sec:experimental_results} to evaluate out methodology. The first application is a generic MIMO wireless communication system. The application exists as a MATLAB model. The model generates random data, transmits it over a noisy communication channel using 8 antennas and a 16 QAM constellation. The signal is received again using 8 antennas, and the receiver tries to recover the original data using a simple ``Zero Forcing Equalizer'' by estimating the communication channel. The equalizer requires to compute the inverse of a $8\times8$ channel matrix. One efficient method to do this involves calculating the ``QR-Decomposition''. In this first example we want to approximate a hardware implementation of QR-Decomposition. The goal is to find a set of operating points for different channels \mbox{$\textrm{SNR [dB]} = \{30; 40; 50\}$} while maintaining a target bit-error rate at the receiver of \mbox{$\textrm{BER}=0.01$}. The second application is a simple ``Sobel Image Filter'', which exists as a regular implementation C. This example differs from the previous one in two major points. First, in this example the input quality is not varying. In this example we want generate approximations for different (in-)accuracies of the filter operation \mbox{$\textrm{PSNR [dB]} = \{30; 40; 50\}$}. And second, the target application is CPU based. I.e. operations would mapped on approximate units in a CPU pipeline. In this application we focus on floating-point operations of a FPU, hence we want to find out what error probability can be allowed at the outputs of a FPU, depending on the operation and the target quality of the sobel filter.
 
 Gathering this information at an algorithmic level unfortunately cannot be automated. Simulation models are required and the required quality of the overall application quality has to be determined. Furthermore for each application, and the type on how the model is implemented, a method to inject faults has to be developed. However, on software-level this is usually a very simple task. Similarly to the algorithm we will introduce in Subsection \ref{subsec:approximation} we propose a two-step approach in order to speed up the simulation. In the first step the integer approximations are determined. Usually this means, that one wants to find out which bits can be ignored. This is a typical fixed-point arithmetic problem, where many methods and tools exist \hl{citation?}. In our two examples, where we only have 2 respectively 3 dimensions this is a simple operation. Starting with the least-significant bit we successively ignored the bits in the model, and observed whether the quality was within the required range. The second step, that we propose is the fine-granular approximation. For the remaining bits, those that cannot be ignored completely, we want to find out what error probability still can be tolerated. In order to do so, we subsequently, register by register, increase the error probability of the output bits. If the quality constraint is satisfied we continue, if not we stop increasing the bit-error rate of that specific output. The result of this approximation at algorithmic level can be seen in Figure \ref{fig:metrics_qr} and \ref{fig:metrics_sobel}. In case of the zero-forcing algorithm, we can see that both for the ``Q'' and the ``R'' part of the decomposition up to 7 bits can be pruned (visible as $p_e=0.5$). This is large number is clearly dependent on the input data and the type of application and might be less for other applications. However, what can also be seen is that there is a dynamics of one bit in both parts, depending on the signal quality. This might seem less in the first place, but on hardware level this multiplies as we will see later. Furthermore, we can see that also for bits that cannot be ignored completely a certain error probability can be tolerated. Even these minor approximations at algorithm level have a large effect on the hardware approximation as we will see later.
@@ -98,6 +99,7 @@ With the information generated at the algorithm level, one can now start with th
 \subsubsection{Data-path Separation}
 The first step can be seen as a separation of data- and control-path. The idea is to simply exclude all registers from our potential candidates, that have an influence on outputs, where not errors can be tolerated at all. Influencing means that if there is any path from a register to an output, a fault at that register can also be seen at that output. As these outputs are usually control outputs, like address pins, we call this operation data-path separation. This step has to be performed very careful, as every error in the control-path of a circuit, even if it is very unlikely, can have disastrous effects on the functionality of a circuit. The identification of control path-registers is pretty straight-forward. We subsequently inject into each register an error probability of $p_e=0.5$ but only at one at a time, and observe the outputs. If faults could be observed at at least one unwanted output, this register is discarded from the candidates. In order to make this approach prone to false-negative decisions, it ideally has to be performed several times, with a large set of test-vectors.
 \subsubsection{High Variance Registers}
+\label{subsubsec:high_v}
 The second step pointed out to be necessary in case of the ``QR'' approximation. We observed that the same set of applied error probabilities resulted in a highly varying output error probability. Although the errors could only be observed at data-path outputs, this behavior makes it impossible to reliably approximate a circuit. In order to trust the approximation, the results have to be reproducable, which is why these elements have to be excluded from the list of candidates as well. We are doing this using the same method as for the data-path separation, but this time we are calculating the variance over multiple runs. If the variance is above a certain threshold the register will be discarded.
 \subsubsection{Coarse-grained Approximation}
 The third step is the first approximation step. In this step we are identifying those registers that can be completely pruned. As a consequence, all elements prior to that, that only influence that one register can be pruned as well. Hence, this is the step that will save most power in the end. As we have excluded all inappropriate elements in the previous steps, this step is straightforward, as shown in Algorithm \ref{alg:coarse_approximation}. The subset of candidates is denoted as the vector $\mathbf{c} = \{c_1,c_2,\ldots,c_{o}\}$.
@@ -147,52 +149,66 @@ Finally, the last step is the fine-grained approximation. In this step we want t
   \end{algorithmic}
 \end{algorithm}
 The injected error probability of each candidate gets increased step by step by a factor of $\delta$. If the increase led to a constraint violation this particular register is removed from the candidates. This procedure is continued until the set is empty. The result of this operation is a vector containing the maximum error probability for each register in the circuit, where a value of $0.5$ corresponds to coarse-grained approximated registers and other values to fine-grained approximated registers.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{Experimental Results}
 \label{sec:experimental_results}
-
-\begin{tabular} {| l | l | c | c |}
+In this section we present the experimental results of our proposes methodology. Additionally to the two applications presented in Subsection \ref{subsec:application_reasoned}, we introduce a third benchmark, a Viterbi decoder. The precision dynamics do come in this case again due to varying signal qualities. However, the major difference to e.g. the MIMO (QR) benchmark is, that the output of the decoder practically has to be error free. For instance in case of original digital radio (DAB), a frame would be discarded if the checksum of the viterbi output is wrong, resulting in an immediate sound drop. A summary of the circuits is shown in Table \ref{tab:benchmark_circuits}.
+\begin{table}[htb]
+%\renewcommand{\arraystretch}{1.3}
+\caption{The benchmark circuits used for this evaluation}
+\label{tab:benchmark_circuits}
+\centering
+\begin{tabular} {| l | l | c | c | c |}
 \hline
-Name & Description & Gates & Flip-flops \\
+Name & Description & Gates & Flip-flops & Technology\\
 \hline\hline
-FIR & 16-tap FIR filter & xx & xx \\
-IIR & 8-tap IIR filter & xx &xx \\
-DCT4 & 4-input DCT & xx & xx \\
-DCT8 & 8-Input DCT & xx & xx \\
-fpu100 & 32-bit floating point unit & xx & xx \\
-QR & QR decomposition & xx & xx \\
-vitdec & Viterbi decoder (131,81) & xx & xx \\
+%FIR & 16-tap FIR filter & xx & xx &\\
+%IIR & 8-tap IIR filter & xx &xx &\\
+%DCT4 & 4-input DCT & xx & xx &\\
+%DCT8 & 8-Input DCT & xx & xx &\\
+fpu100 & 32-bit floating point unit & xx & xx & Synopsys 90nm\\
+QR & QR decomposition & xx & 414 & Virtex 6\\
+vitdec & Viterbi decoder (131,81) & xx & 1297 & Virtex 6\\
 \hline
 \end{tabular}
+\end{table}
+
 \subsection{Approximation Evaluation}
-\hl{power/area table}
-\begin{figure}[tb]
+We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approach a desired target precision. Table \ref{fig:optimization_qr} is showing the approximation for benchark circuit ``QR''. 
+\begin{figure}[htb]
   \centering
   \includegraphics[width=.5\textwidth]{figs/optimization_qr}
   \caption{Approximation result for benchmark circuit ``QR'', showing the maximum tolerable error probability at each register}
   \label{fig:optimization_qr}
 \end{figure}
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=.5\textwidth]{figs/optimization_fpu}
-  \caption{Approximation result for benchmark circuit ``fpu''}
-  \label{fig:optimization_fpu}
-\end{figure}
-\begin{figure}[tb]
+One can see that only a subset of the registers was qualified for approximation. Actually only the ``R'' part could be approximated. Although the algorithm was able to detected registers influencing the ``Q'' part, all have been filtered out in step \ref{subsubsec:high_v}. Only those registers influencing the ``R'' part pointed out to have a predictable coherence between error probability at the register and the measured error probabilities at the outputs. However for the remaining elements the approximation was working well. One can see that the one bit approximation, possible for a signal quality of $50$dB, at application level, spreads over multiple registers at register level. Furthermore, one can see that the fine-grained approximation is also working. The better the signal quality, the more faults can be tolerated.
+The results of benchmark circuit ``fpu'' are similar. Results are shown in Table \ref{tab:approx}. This time the emulated target technology is an ASIC implemented in Synopsys 90nm technology. 
+\begin{table}[htb]
+\caption{Possible Approximation for benchmark circuit \emph{QR} and \emph{fpu100} for different quality goals}
+\label{tab:approx}
+\centering
+\begin{tabular} { l  l  l  l  l }
+\multicolumn{2}{l}{QR} & & \multicolumn{2}{l}{fpu100} \\
+\cline{1-2} \cline{4-5}
+Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
+\cline{1-2} \cline{4-5}
+30 dB & 36.5183 & &50 dB & 34.505 \\
+40 dB & 36.519 & &30 dB & 39.5048 \\
+50 dB & 42.5191 & &20 dB & 42.5045 \\
+
+\hline
+
+
+\end{tabular}
+\end{table}
+%\begin{figure}[htb]
+%  \centering
+%  \includegraphics[width=.5\textwidth]{figs/optimization_fpu}
+%  \caption{Approximation result for benchmark circuit ``fpu''}
+%  \label{fig:optimization_fpu}
+%\end{figure}
+
+And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities depending on the signal quality. Unfortunately this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
+\begin{figure}[htb]
   \centering
   \missingfigure[figwidth=.5\textwidth]{Power viterbi}
   \caption{Possible approximation, in terms of tolerated error proabilities, for benchmark circuit ``viterbi'' for varying signal qualities and a target BER=$0.0$}
@@ -200,19 +216,23 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 \end{figure}
 
 
+
 \subsection{Power Evaluation}
-\begin{figure}[tb]
+\begin{figure}[htb]
   \centering
-  \missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
+  %\missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
+  \includegraphics[width=.5\textwidth]{figs/power_qr}
   \caption{Potential Power-savings for benchmark circuit ``QR'' for varying signal qualities, when peforming 8x8 ZF Equalization}
   \label{fig:power_qr}
 \end{figure}
-\begin{figure}[tb]
+\begin{figure}[htb]
   \centering
-  \missingfigure[figwidth=.5\textwidth]{Power FPU}
+  %\missingfigure[figwidth=.5\textwidth]{Power FPU}
+  \includegraphics[width=.5\textwidth]{figs/power_sobel}
   \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
+
 
 
 
@@ -237,8 +257,8 @@ vitdec & Viterbi decoder (131,81) & xx & xx \\
 
 
 
-\section*{Acknowledgment}
-
+%\section*{Acknowledgment}
+%This work was partly supported by the German Research Foundation (DFG) as part of the Transregional Collaborative Research Centre ”Invasive Computing” (SFB/TR 89) and by the German Federal Ministry of Education and Research (BMBF) under grant number 16M3091F.
 
 
 
