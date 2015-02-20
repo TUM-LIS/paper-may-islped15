@@ -198,6 +198,7 @@ Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
 \hline
 
 
+
 \end{tabular}
 \end{table}
 %\begin{figure}[htb]
@@ -210,7 +211,9 @@ Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
 And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities depending on the signal quality. Unfortunately this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
 \begin{figure}[htb]
   \centering
-  \missingfigure[figwidth=.5\textwidth]{Power viterbi}
+  % \showthe\columnwidth
+  % \missingfigure[figwidth=.5\textwidth]{Power viterbi}
+  \includegraphics[width=.5\textwidth]{figs/optimization_viterbi}
   \caption{Possible approximation, in terms of tolerated error proabilities, for benchmark circuit ``viterbi'' for varying signal qualities and a target BER=$0.0$}
   \label{fig:power_viterbi}
 \end{figure}
@@ -232,16 +235,6 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
   \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
-
-
-
-
-
-
-
-
-
-
 
 
 
