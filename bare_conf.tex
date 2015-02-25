@@ -173,7 +173,7 @@ vitdec & Viterbi decoder (131,81) & xx & 1297 & Virtex 6\\
 \end{table}
 
 \subsection{Approximation Evaluation}
-We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approach a desired target precision. Table \ref{fig:optimization_qr} is showing the approximation for benchark circuit ``QR''. 
+We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approximate  circuits and if the approximation approaches precisely a desired target precision. Table \ref{fig:optimization_qr} is showing the approximation for benchark circuit ``QR''. 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=.5\textwidth]{figs/optimization_qr}
@@ -208,7 +208,7 @@ Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
 %  \label{fig:optimization_fpu}
 %\end{figure}
 
-And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities depending on the signal quality. Unfortunately this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
+And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities over all registers depending on the signal quality. Unfortunately this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find a corresponding working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
 \begin{figure}[htb]
   \centering
   % \showthe\columnwidth
@@ -230,8 +230,8 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 \end{figure}
 \begin{figure}[htb]
   \centering
-  %\missingfigure[figwidth=.5\textwidth]{Power FPU}
-  \includegraphics[width=.5\textwidth]{figs/power_sobel}
+  \missingfigure[figwidth=.5\textwidth]{Power FPU}
+  %\includegraphics[width=.5\textwidth]{figs/power_sobel}
   \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
