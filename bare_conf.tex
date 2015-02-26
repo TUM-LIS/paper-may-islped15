@@ -160,12 +160,13 @@ In this section we present the experimental results of our proposes methodology.
 \hline
 Name & Description  & Flip-flops & Technology\\
 \hline\hline
-fpu100 & 32-bit floating point unit  & xx & Synopsys 90nm\\
-QR & QR decomposition  & 414 & Virtex 6\\
-vitdec & Viterbi decoder (131,81)  & 1297 & Virtex 6\\
+fpu100 \cite{al2007fpu100} & 32-bit floating point unit  & xx & Synopsys 90nm\\
+QR \cite{gimmler-dumont_asic_2013} & QR decomposition  & 414 & Virtex 6\\
+vitdec \cite{fehrenz2014viterbi} & Viterbi decoder (131,81)  & 1297 & Virtex 6\\
 \hline
 \end{tabular}
 \end{table}
+
 
 \subsection{Approximation Evaluation}
 We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approximate circuits.
@@ -205,7 +206,7 @@ Signal Qual. [SNR] & $\sum p_{e,i,\textrm{max}}$ & & Target Qual. [PSNR] & $\sum
 %  \label{fig:optimization_fpu}
 %\end{figure}
 
-And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities over all registers depending on the signal quality. Unfortunately, this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find a corresponding working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
+And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities over all registers depending on the signal quality. This circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find a corresponding working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
 \begin{figure}[htb]
   \centering
   % \showthe\columnwidth
@@ -217,19 +218,22 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 
 
 \subsection{Power Evaluation}
+In this section we are evaluating the power savings enabled by the approximation presented in the previous Sections. We are only able to estimate the power savings enabled by circuit pruning. In order to estimate the power savings enabled by voltage scaling one would need an estimate of the connection between supply voltage and error probability due to timing violations. This is a complex topic on its own, which we keep open for our future work. Figure \ref{subsec:power} is showing the estimated dynamic power consumption of test circuit \emph{QR}. 
 \label{subsec:power}
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
   \includegraphics[width=.5\textwidth]{figs/power_qr}
-  \caption{Power consumption of benchmark circuit ``QR'' for different approximations based on varying signal qualities, when peforming 8x8 ZF Equalization}
+  \caption{Dynamic power consumption of benchmark circuit \emph{QR} for different approximations based on varying signal qualities, when peforming 8x8 ZF Equalization}
   \label{fig:power_qr}
 \end{figure}
+The power estimations have been made for a Virtex 6 FPGA. One can see that compared to the deterministic original circuit, up to $1,6$ mW can be saved depending on the signal quality. An increase of the signal qualtity from $30$ to $50$ dB can save $0.83$ mW of power.
+Figure \ref{fig:power_fpu} is showing the estimated power consumption of test circuit \emph{fpu100}. The power is estimated using the Synopsys 90nm generic library. Compared to the deterministic version up to xx mW can be saved.
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Power FPU}
   \includegraphics[width=.5\textwidth]{figs/power_fpu}
-  \caption{Power consumption of benchmark circuit ``fpu'' for different approximations based on varying target qualities, when performing a sobel filter}
+  \caption{Power consumption of benchmark circuit \emph{fpu100} for different approximations based on varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
 
