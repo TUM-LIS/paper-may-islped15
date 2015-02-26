@@ -35,9 +35,11 @@ Most existing approaches only consider combinational circuits. Our proposed meth
 
 
 \section{Introduction}
-Due to increasing demand for low-power applications during the last decade, energy-efficiency has become a major factor in embedded systems design. However, voltage-scaling, the most efficient technique to save power, can not be further applied in conventional systems. The sophisticated scaling of MOSFET feature-sizes, makes circuits prone to even small voltage variations, when operating in the near-threshold area, and hence susceptible to errors within the circuit. And furthermore, as a consequence thereof, the decreased operating frequency is not acceptable in many cases.
+Due to the increasing demand for low-power applications during the last decade, energy-efficiency has become a major concern in embedded systems design. However, voltage-scaling, the most efficient technique to save power, can not be further driven in conventional systems. Apart from a not acceptable performance loss, the aggressive scaling of \mbox{MOSFET} feature-sizes, makes circuits prone to even small voltage variations, when operating in the near-threshold area and hence susceptible to errors within the circuit.
 \subsubsection*{Approximate Computing}
-One emerging approach to tackle this problem is captioned by the term \emph{Approximate Computing}. Approximate computing tries to increase the energy-efficiency by tolerating a certain uncertainty at the circuit outputs, i.e. the result of a operation. The term covers a variety of points of application, from programming level to transistor level, as well as techniques on how to reduce the power consumption. Power can be saved for instance by calculating with a \emph{reduced precision}, i.e. removing parts of the circuit, a method clearly related to fixed-point arithmetic. However, approximate computing introduces dynamics to this field. It proposes to switch off and on the precision depending on the actual demand of the application. Another way can be to \emph{over-scale the voltage}, and hence accept timing violations or nose-based faults. Another method, we want to explicitly mention here, is related to circuit soft-error reliability. Approximate computing can be used to reduce the hardware overhead due to fault tolerance mechanisms, e.g. by \emph{omitting redundancy} wherever it is not absolutely needed. Clearly this approach is not applicable for all kind of applications. Especially applications form the signal processing domain are suitable. These applications usually have an inherent imprecision tolerance. They have to deal with the human (imperfect) perception, have redundant input data in order to deal with noisy data. For a comprehensive coverage of the topic, we refer to the work of Han et al. \cite{han_approximate_2013}.
+One emerging approach to tackle this problem is captioned by the term \emph{Approximate Computing}. Approximate computing tries to increase the energy-efficiency by tolerating a certain uncertainty at the circuit outputs, i.e. the result of a operation. The term covers a variety of points of application, from programming level to transistor level, as well as techniques on how to reduce the power consumption. Power can be saved for instance by calculating with a \emph{reduced precision}, i.e. removing parts of the circuit, a method clearly related to fixed-point arithmetic. However, approximate computing introduces dynamics to this field. It proposes to switch off and on the precision depending on the actual demand of the application. Another way can be to \emph{over-scale the voltage}, and hence accept timing violations or nose-based faults. 
+%Another method, we want to explicitly mention here, is related to circuit soft-error reliability. Approximate computing can be used to reduce the hardware overhead due to fault tolerance mechanisms, e.g. by \emph{omitting redundancy} wherever it is not absolutely needed.
+Clearly, this approach is not applicable for all kind of applications. Especially applications from the signal processing domain are suitable. These applications usually have an inherent imprecision tolerance. They have to deal with the human (imperfect) perception, have redundant input data in order to deal with noisy data. For a comprehensive coverage of the topic, we refer to the work of Han et al. \cite{han_approximate_2013}.
 \subsubsection*{Motivational Example}
 Consider any arbitrary wireless communication system, e.g. like IEEE 802.11 Wi-Fi. Like any similar system, 802.11 is as system, designed to deal with noise on the received radio signal. It is designed to transmit data error-free in a good, as well as in a bad radio channel. If the channel is noisy between two stations, the system switches to a lower-order modulations scheme, resulting in a lower data-rate, in order to be more robust. However, internally the hardware is working with the same precision independent on the signal quality, which might not be necessary. For instance, such systems usually consist of one or more channel-coding schemes. At the receiving end, the decoder extracts the payload from the received signal, not matter if it was noisy or not. Hence, if the SNR of the signal is high, the decoder could work less precise, requiring less power, and still extract the payload error-free. Depending on the signal quality such a dynamic approximate system could then switch between different power/precision states without having any influence on the performance.
 \subsubsection*{Problem Description}
@@ -187,11 +189,11 @@ The results of benchmark circuit ``fpu'' are similar. The sum of tolerated error
 \begin{tabular} { l  l  l  l  l }
 \multicolumn{2}{l}{QR} & & \multicolumn{2}{l}{fpu100} \\
 \cline{1-2} \cline{4-5}
-Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
+Signal Qual. [SNR] & $\sum p_{e,i,\textrm{max}}$ & & Target Qual. [PSNR] & $\sum p_{e,i,\textrm{max}}$\\
 \cline{1-2} \cline{4-5}
-30 dB & 36.5183 & &50 dB & 34.505 \\
-40 dB & 36.519 & &30 dB & 39.5048 \\
-50 dB & 42.5191 & &20 dB & 42.5045 \\
+30 dB & 36.5183 & &50 dB & 214.5132 \\
+40 dB & 36.519 & &30 dB & 207.0054 \\
+50 dB & 42.5191 & &20 dB & 187.0082 \\
 
 \hline
 
@@ -217,7 +219,6 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 \end{figure}
 
 
-
 \subsection{Power Evaluation}
 \label{subsec:power}
 \begin{figure}[htb]
@@ -229,12 +230,11 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 \end{figure}
 \begin{figure}[htb]
   \centering
-  \missingfigure[figwidth=.5\textwidth]{Power FPU}
-  %\includegraphics[width=.5\textwidth]{figs/power_sobel}
+  %\missingfigure[figwidth=.5\textwidth]{Power FPU}
+  \includegraphics[width=.5\textwidth]{figs/power_fpu}
   \caption{Potential Power-savings for benchmark circuit ``fpu'' for varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
-
 
 
 
