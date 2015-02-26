@@ -25,9 +25,9 @@
 
 \begin{abstract}
 %\boldmath
-Approximate Computing has recently drawn interest due to its promise to substantially decrease the power consumption of integrated circuits. By tolerating a certain incorrectness at a circuit output, it can be operated at a more resource-saving state. For instance, parts of the circuit could be switched off or driven at sub-threshold voltage. Clearly, not all applications are suitable for this approach. Especially applications from the signal and image processing domain are suitable, due to their intrinsic tolerance to imprecision. But even in these circuits, one has to be very careful when and where to approximate a circuit, in order not to violate a minimum QoS.\\
-In this paper we are presenting an approach to generate approximate circuits from existing deterministic implementations. The flow reaches from application-driven QoS definition down to approximated RTL. We are using FPGA-based fault emulation of the circuit in order to find out how faults, i.e. imprecisions in the circuit, affect the circuit behavior.\\
-Most existing approaches only consider combinational circuits. Compared to existing approaches considering sequential circuits, our approach is very fast and accurate due to the FPGA-based emulation. And furthermore, we are able to fine-granular tune the resulting precision to the defined QoS, in order to bring out the best gain of the approximation.
+Approximate Computing has recently drawn interest due to its promise to substantially decrease the power consumption of integrated circuits. By tolerating a certain imprecision at a circuit output, it can be operated at a more resource-saving state. For instance, parts of the circuit could be switched off or driven at sub-threshold voltage. Clearly, not all applications are suitable for this approach. Especially applications from the signal and image processing domain are applicable, due to their intrinsic tolerance to imprecision. But even in these circuits, one has to be very careful where to approximate a circuit and to what extent, in order not to violate a minimum required QoS.\\
+In this paper we are presenting an approach to generate approximate circuits from existing deterministic implementations. The flow reaches from application-driven QoS definition down to approximated RTL. We are employing FPGA-based fault emulation of the circuit in order to find out how faults, i.e. imprecisions in the circuit, affect the circuit behavior.\\
+Most existing approaches only consider combinational circuits. Our proposed methodology is able to approximate complete sequential circuits. Due to the FPGA-based emulation, our approach is very fast and accurate. And furthermore, it allows us to fine-granular tune the resulting precision to the defined QoS, in order to bring out the best gain of the approximation.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -171,15 +171,15 @@ vitdec & Viterbi decoder (131,81) & xx & 1297 & Virtex 6\\
 \end{table}
 
 \subsection{Approximation Evaluation}
-We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approximate  circuits and if the approximation approaches precisely a desired target precision. Table \ref{fig:optimization_qr} is showing the approximation for benchark circuit ``QR''. 
+We start by evaluating the approximation itself. We want to verify if the methodology allows to efficiently approximate circuits and if the approximation approaches precisely a desired target precision. Figure~\ref{fig:optimization_qr} and Table \ref{tab:approx} are showing the approximation for benchark circuit ``QR''. 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=.5\textwidth]{figs/optimization_qr}
   \caption{Approximation result for benchmark circuit ``QR'', showing the maximum tolerable error probability at each register}
   \label{fig:optimization_qr}
 \end{figure}
-One can see that only a subset of the registers was qualified for approximation. Actually only the ``R'' part could be approximated. Although the algorithm was able to detected registers influencing the ``Q'' part, all have been filtered out in step \ref{subsubsec:high_v}. Only those registers influencing the ``R'' part pointed out to have a predictable coherence between error probability at the register and the measured error probabilities at the outputs. However for the remaining elements the approximation was working well. One can see that the one bit approximation, possible for a signal quality of $50$dB, at application level, spreads over multiple registers at register level. Furthermore, one can see that the fine-grained approximation is also working. The better the signal quality, the more faults can be tolerated.
-The results of benchmark circuit ``fpu'' are similar. Results are shown in Table \ref{tab:approx}. This time the emulated target technology is an ASIC implemented in Synopsys 90nm technology. 
+One can see that only a subset of the registers was qualified for approximation. Actually only the ``R'' part could be approximated. Although the algorithm was able to detected registers influencing the ``Q'' part, all have been filtered out in step \ref{subsubsec:high_v}. Only those registers influencing the ``R'' part, have a predictable coherence between error probability at the register and the measured error probabilities at the outputs. However for the remaining elements an approximation was possible. One can see that the one bit reduction of precision, for a signal quality of $50$dB, at application level, spreads over multiple registers at register level. Furthermore, one can see that the fine-grained approximation is also working well. The better the signal quality, the more faults can be tolerated.
+The results of benchmark circuit ``fpu'' are similar. The sum of tolerated error probabilities over all registers is shown in Table \ref{tab:approx}. This time the emulated target technology is an ASIC implemented in Synopsys 90nm technology. As we have already seen at application level, one can see that the possible approximations vary a lot depending on the target quality. This will have a clear impact on the power consumption, as we will see in the Subsection~\ref{subsec:power}.
 \begin{table}[htb]
 \caption{Possible Approximation for benchmark circuit \emph{QR} and \emph{fpu100} for different quality goals}
 \label{tab:approx}
@@ -206,7 +206,7 @@ Signal Qual. [SNR] & Tolerated $p_e$ & & target Qual. [PSNR] & Tolerated $p_e$\\
 %  \label{fig:optimization_fpu}
 %\end{figure}
 
-And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities over all registers depending on the signal quality. Unfortunately this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find a corresponding working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
+And finally, Figure \ref{fig:power_viterbi} is showing the results of the approximation of the viterbi decoder. The Figure is showing the sum of tolerable error probabilities over all registers depending on the signal quality. Unfortunately, this circuit offers no dynamics in case of coarse-grained approximations. I.e. no parts of the circuit can be switched off and on depending on the signal quality. However, in case of the fine-grained approximation the algorithm was able to find a corresponding working point for each signal quality. Hence, this circuit is in particular useful for approximate computing through voltage over-scaling.
 \begin{figure}[htb]
   \centering
   % \showthe\columnwidth
@@ -219,6 +219,7 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 
 
 \subsection{Power Evaluation}
+\label{subsec:power}
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
