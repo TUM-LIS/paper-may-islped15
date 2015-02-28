@@ -217,8 +217,9 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
 \end{figure}
 
 
+
 \subsection{Power Evaluation}
-In this section we are evaluating the power savings enabled by the approximation presented in the previous Sections. We are able to estimate the power savings either due to circuit pruning or by clock gating the corresponding registers. The latter clearly has less influence on the power consumption, as the static power consumption remains the same. In order to estimate the power savings enabled by voltage scaling one would need an estimate of the connection between supply voltage and error probability due to timing violations. This is a complex topic on its own, which we keep open for our future work. Figure \ref{subsec:power} is showing the estimated dynamic power consumption of test circuit \emph{QR}. 
+In this section we are evaluating the power savings enabled by the approximation presented in the previous Sections. We are able to estimate the power savings either due to circuit pruning or by clock gating the corresponding registers. However, the differences in the power consumption are only marginal. In order to estimate the power savings enabled by voltage scaling one would need an estimate of the connection between supply voltage and error probability due to timing violations. This is a complex topic on its own, which we keep open for our future work. Figure \ref{subsec:power} is showing the estimated dynamic power consumption of test circuit \emph{QR}. 
 \label{subsec:power}
 \begin{figure}[htb]
   \centering
@@ -227,9 +228,9 @@ In this section we are evaluating the power savings enabled by the approximation
   \caption{Dynamic power consumption of benchmark circuit \emph{QR} (sum of \emph{mul} and \emph{div}) for different approximations based on varying signal qualities, when peforming 8x8 ZF Equalization}
   \label{fig:power_qr}
 \end{figure}
-The power estimations have been made for a Virtex 6 FPGA running at 100MHz. One can see that, when applying approximate pruning, compared to the deterministic original circuit, up to $1.6$ mW ($-8.7\%$) can be saved depending on the signal quality. An increase of the signal qualtity from $30$ to $50$ dB can save $0.83$ mW of power. In case of dynamic approximations, based on clock gating, the power savings are less, but still visible. \hl{add to figure}.
+The power estimations have been made for a Virtex 6 FPGA running at 100MHz. One can see that, when applying approximate pruning, compared to the deterministic original circuit, up to $1.6$ mW ($-8.7\%$) can be saved depending on the signal quality. An increase of the signal qualtity from $30$ dB to $50$ dB can save $0.83$ mW of power.
 
-Figure \ref{fig:power_fpu} is showing the estimated power consumption of test circuit \emph{fpu100}. The power is estimated using the Synopsys 90nm generic library again running at 100 MHz. When applying dynamic approximation, compared to the deterministic version, up to $2.87$ mW ($-19.7\%$) can be saved. Accepting a reduction of the target quality from $50$ to $30$dB, results in a power saving of $0.15$ mW.
+Figure \ref{fig:power_fpu} is showing the estimated power consumption of test circuit \emph{fpu100 mul}. The power is estimated using the Synopsys 90nm generic library again running at 100 MHz. When applying dynamic approximation, compared to the deterministic version, up to $1.79$ mW ($-43.3\%$) can be saved. Accepting a reduction of the target quality from $50$ to $30$dB, results in a power saving of $0.05$ mW ($-2.1\%$).
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Power FPU}
@@ -237,7 +238,7 @@ Figure \ref{fig:power_fpu} is showing the estimated power consumption of test ci
   \caption{Power consumption of benchmark circuit \emph{fpu100} for different approximations based on varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
-When statically synthesizing approximate circuits for the different target qualities, the difference in between is much clearer due to the influence of the static power consumption.\hl{add to figure} For our future work, we plan to analyze the definition of coarse-grained power-gating islands, in order to further benefit of the dynamic approximations.
+For our future work, we plan to analyze the definition of coarse-grained power-gating islands, in order to further benefit of the dynamic approximations.
 
 
 \section{Conclusion}
