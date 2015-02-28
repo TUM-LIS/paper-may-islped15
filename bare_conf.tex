@@ -119,7 +119,8 @@ The third step is the first approximation step. In this step we are identifying 
     \State AppendToArray($\mathbf{c_{coarse}},i$)
     \EndIf
     \EndFor
-    \State \textbf{return} $\mathbf{p_{e,coarse}} \gets \mathbf{p_e}$
+    \State \textbf{return} $\mathbf{c_{coarse}}$ 
+      % $\mathbf{p_{e,coarse}} \gets \mathbf{p_e}$
     \EndProcedure
   \end{algorithmic}
 \end{algorithm}
@@ -130,7 +131,7 @@ Finally, the last step is the fine-grained approximation. In this step we want t
   \caption{Fine Approximation}\label{alg:fine_approximation}
   \begin{algorithmic}[1]
     \Procedure{FineApproximation}{$\mathbf{c},\mathbf{c_{coarse}},\mathbf{p_{e,max}},\delta$}
-    \State $\mathbf{c_{fine}} = \mathbf{c} \setminus \mathbf{c_{coarse}}$\Comment{Finding the relative complement}
+    \State $\mathbf{c_{fine}} = \mathbf{c} \setminus \mathbf{c_{coarse}}$\Comment{relative complement}
     \State $\mathbf{p_e}(\mathbf{c}) \gets 0.0$
     \State $\mathbf{p_e}(\mathbf{c_{coarse}}) \gets 0.5$
     \While{(!isEmpty($\mathbf{c_{fine}}$))}
@@ -160,7 +161,7 @@ In this section we present the experimental results of our proposes methodology.
 \hline
 Name & Description  & Flip-flops & Technology\\
 \hline\hline
-fpu100 \cite{al2007fpu100} & 32-bit floating point unit  & xx & Synopsys 90nm\\
+fpu100 \cite{al2007fpu100} & 32-bit floating point unit  & 2030 & Synopsys 90nm\\
 QR \cite{gimmler-dumont_asic_2013} & QR decomposition  & 414 & Virtex 6\\
 vitdec \cite{fehrenz2014viterbi} & Viterbi decoder (131,81)  & 1297 & Virtex 6\\
 \hline
