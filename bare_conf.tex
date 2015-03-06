@@ -44,7 +44,7 @@ Consider any arbitrary wireless communication system. Such systems are designed 
 \subsubsection*{Problem Description}
 Even if the applications mentioned above seem to be applicable for approximate computing, parts of the circuit cannot be easily switched off and faults cannot be tolerated everywhere in the circuit. It is crucial to know which parts of the circuit influence the functionality in which way. Ideally, we want to gain this knowledge for each gate in the circuit, to get a very detailed overview about the possible approximations. To simplify the problem we are analyzing circuits at register-transfer level, which gives a good trade-off between the precision of gate-level and the abstraction of algorithmic level \cite{herkersdorf2014resilience}. However, even there the number of possible states of the circuit corresponds to $2^N$, where $N$ is the number of registers in the circuit. Hence, the difficulty of designing approximate computing on circuit level is to efficiently and reliable determine which parts of the circuit can be approximated and to what extent.
 \subsubsection*{Related Work}
-As mentioned earlier, approximate computing is a research field that can, and in our opinion has to, be considered at many levels. Furthermore, it can be applied to CPU-based applications, as well as dedicated hardware accelerators. In the former case usually the source code is annotated defining which operations can be executed on approximate hardware, e.g. as proposed in \cite{sampson_enerj:_2011}. In the latter case, most research effort has been spent on building approximate standard building blocks, like adders and multipliers \cite{huang_exploring_2011,gupta_impact:_2011,kahng_accuracy-configurable_2012}. However, most methods presented are based on manual interaction. Only a few present an automated approach, like Nepal et al. \cite{nepal_abacus:_2014} did, who proposed an automated method, based on the behavioral description. Some works focus on approximation of circuits at synthesis time \cite{miao_approximate_2013,shin_approximate_2010,choudhury_approximate_2008}. However, only very few explicitly focus on the approximation of sequential circuits. Ranjan et al. \cite{ranjan_aslan:_2014} use formal verification techniques to identify the impact of approximate parts of a sequential circuit on the global output. This seems to be a very promising approach. However, it only offers the ability to generate fixed approximated circuits. In order to save power e.g. by using dynamic voltage over-scaling or by dynamically enabling precision, an even more fine-grained analysis is required, to model varying approximation operating points.
+As mentioned earlier, approximate computing is a research field that can, and in our opinion has to, be considered at many levels. Furthermore, it can be applied to CPU-based applications, as well as dedicated hardware accelerators. In the former case usually the source code is annotated defining which operations can be executed on approximate hardware, e.g. as proposed in \cite{sampson_enerj:_2011}. In the latter case, most research effort has been spent on building approximate standard building blocks, like adders and multipliers \cite{huang_exploring_2011,chakrapani_highly_2008,gupta_impact:_2011,kahng_accuracy-configurable_2012}. However, most methods presented are based on manual interaction. Only a few present an automated approach, like Nepal et al. \cite{nepal_abacus:_2014} did, who proposed an automated method, based on the behavioral description. Some works focus on approximation of circuits at synthesis time \cite{miao_approximate_2013,shin_approximate_2010,choudhury_approximate_2008}. However, only very few explicitly focus on the approximation of sequential circuits. Ranjan et al. \cite{ranjan_aslan:_2014} use formal verification techniques to identify the impact of approximate parts of a sequential circuit on the global output. This seems to be a very promising approach. However, it only offers the ability to generate fixed approximated circuits. In order to save power e.g. by using dynamic voltage over-scaling or by dynamically enabling precision, an even more fine-grained analysis is required, to model varying approximation operating points.
 \subsubsection*{Contribution of this Work}
 In order to solve these limitations we are introducing bit-flip probabilities to the analysis. As already mentioned, we are focusing on register-transfer level. By assigning bit-flip probabilities to each register in a circuit, we are able to model the various effects responsible for the approximation, from timing violations to circuit pruning. We are using FPGA-based emulation to actually flip the bits. This makes the analysis very fast and allows us to cover a large state space, so that the results are reliable. In this work we are presenting and evaluating a methodology in order to find out which parts of a sequential circuit can be approximated and to what degree. The approach is automated, wherever it is possible. Given a netlist and a set of quality constraints our tool automatically generates the information of what bit-flip probability is allowed at which register, without violating the output constraint. The approach is fine-granular. I.e., it does not only model the ``integer'' pruning of circuit elements, but also model a bit-flip probability. Integer approximations, i.e. if parts of the circuit can be pruned, can then be implemented directly. The non-integer information can be used to generate approximate combinational logic, e.g. based on aggressive power-scaling, using solutions on a lower abstraction level.
 
@@ -75,14 +75,14 @@ Clearly, it is necessary to reason the required precision of a circuit, i.e. the
 Gathering this information at an algorithmic level unfortunately cannot be automated. Simulation models are required and the desired quality of the overall application quality has to be determined. Furthermore, for each application, and the type on how the model is implemented, a method to inject faults has to be developed. However, on software-level this is usually a very simple task. Similarly to the algorithm we will introduce in Subsection \ref{subsec:approximation} we propose a two-step approach in order to speed up the simulation. In the first step the integer approximations are determined. Usually this means, that one wants to find out which bits can be ignored. This is actually a typical fixed-point arithmetic problem \cite{yates2009fixed}. In our two examples, where we only have 2, respectively 3, dimensions this is a simple operation. Starting with the least-significant bit we successively pruned the bits in the model, and observed whether the quality was within the required range. The second step that we propose is the fine-granular approximation. For the remaining bits, those that cannot be pruned completely, we want to find out what error probability still can be tolerated. In order to do so, we subsequently, register by register, increase the error probability of the output bits. If the quality constraint is satisfied we continue, if not, we stop increasing the bit-error rate of that specific output. The result of this approximation at algorithmic level can be seen in Figure \ref{fig:metrics_qr} and \ref{fig:metrics_sobel}. In case of the zero-forcing algorithm, we can see that both for the \emph{Q} and the \emph{R} part of the decomposition up to 7 bits can be pruned (visible as $p_e=0.5$). This large number is clearly dependent on the input data and the type of application and might be less for other applications. However, what can also be seen is that there is a one bit dynamics in both parts, depending on the signal quality. This seems less in the first place, but on hardware level this multiplies as we will see later. Furthermore, we can see that also, for bits that cannot be pruned completely, a certain error probability can be tolerated. Even these minor approximations at algorithm level have a large effect on the hardware approximation as we will see later.
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=.5\textwidth]{figs/metrics_qr}
+  \includegraphics[width=.48\textwidth]{figs/metrics_qr}
   \caption{Tolerable imprecision of a QR decomposition, part of a 8x8 MIMO zero-forcing equalizer, for different signal qualities and a target BER=$0.01$}
   \label{fig:metrics_qr}
 \end{figure}
 For the second application, the \emph{sobel} filter, we can see similar results. The output bits correspond to a 32-bit IEEE 754 floating-point number. Many bits of the mantissa can be ignored, which is again dependent on that specific application. Exponent bits can never be pruned. In case of \emph{fdiv} and \emph{fmul} the dynamics are very large, which will result in many approximations at hardware level. In case of \emph{fsqrt}, the possible approximations are independent on the target QoS.
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=.5\textwidth]{figs/metrics_sobel}
+  \includegraphics[width=.48\textwidth]{figs/metrics_sobel}
   \caption{Tolerable imprecision of a \emph{sobel} filter for different target qualities (PSNR)}
   \label{fig:metrics_sobel}
 \end{figure}
@@ -170,7 +170,7 @@ We start by evaluating the approximation itself. We want to verify if the method
 Figure~\ref{fig:optimization_qr} and Table \ref{tab:approx} are showing the approximation for benchmark circuit \emph{QR}. 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=.5\textwidth]{figs/optimization_qr}
+  \includegraphics[width=.48\textwidth]{figs/optimization_qr}
   \caption{Approximation result for benchmark circuit \emph{QR}, showing the maximum tolerable error probability at each register}
   \label{fig:optimization_qr}
 \end{figure}
@@ -207,7 +207,7 @@ And finally, Figure \ref{fig:power_viterbi} is showing the results of the approx
   \centering
   % \showthe\columnwidth
   % \missingfigure[figwidth=.5\textwidth]{Power viterbi}
-  \includegraphics[width=.5\textwidth]{figs/optimization_viterbi}
+  \includegraphics[width=.48\textwidth]{figs/optimization_viterbi}
   \caption{Possible approximation, in terms of tolerated error probabilities, for benchmark circuit \emph{viterbi} for varying signal qualities and a target BER=$0.0$}
   \label{fig:power_viterbi}
 \end{figure}
@@ -220,7 +220,7 @@ In this section we are evaluating the power savings enabled by the approximation
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Potential Power-savings for benchmar circuit ``QR'' for varying signal qualities}
-  \includegraphics[width=.5\textwidth]{figs/power_qr}
+  \includegraphics[width=.48\textwidth]{figs/power_qr}
   \caption{Dynamic power consumption of benchmark circuit \emph{QR} for different approximations based on varying signal qualities, when performing 8x8 ZF Equalization}
   \label{fig:power_qr}
 \end{figure}
@@ -229,7 +229,7 @@ Figure \ref{fig:power_fpu} is showing the estimated power consumption of test ci
 \begin{figure}[htb]
   \centering
   %\missingfigure[figwidth=.5\textwidth]{Power FPU}
-  \includegraphics[width=.5\textwidth]{figs/power_fpu}
+  \includegraphics[width=.48\textwidth]{figs/power_fpu}
   \caption{Power consumption of benchmark circuit \emph{fpu100} (multiplication) for different approximations based on varying target qualities, when performing a sobel filter}
   \label{fig:power_fpu}
 \end{figure}
