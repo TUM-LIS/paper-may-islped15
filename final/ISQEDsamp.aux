@@ -2,9 +2,9 @@
 \citation{han_approximate_2013}
 \citation{herkersdorf2014resilience}
 \citation{sampson_enerj:_2011}
-\citation{huang_exploring_2011,gupta_impact:_2011,kahng_accuracy-configurable_2012}
+\citation{huang_exploring_2011,kahng_accuracy-configurable_2012}
 \citation{nepal_abacus:_2014}
-\citation{miao_approximate_2013,shin_approximate_2010,choudhury_approximate_2008}
+\citation{miao_approximate_2013,shin_approximate_2010}
 \citation{ranjan_aslan:_2014}
 \@writefile{toc}{\contentsline {section}{\numberline {\bf  {1}}\bf  {Introduction}}{100}}
 \citation{may2012fpga}
@@ -14,14 +14,15 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\bf  {2}-A}\bf  {Probability-aware Fault Emulation}}{101}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\bf  {2}-B}\bf  {Application-reasoned Approximation}}{101}}
 \newlabel{subsec:application_reasoned}{{\bf  {2}-B}{101}}
+\citation{may2014improving}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Tolerable imprecision of a QR decomposition, part of a 8x8 MIMO zero-forcing equalizer, for different signal qualities and a target BER=$0.01$}}{102}}
 \newlabel{fig:metrics_qr}{{1}{102}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Tolerable imprecision of a \emph  {sobel} filter for different target qualities (PSNR)}}{102}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Tolerable imprecision of floating-point operations in a \emph  {sobel} filter for different target qualities (PSNR)}}{102}}
 \newlabel{fig:metrics_sobel}{{2}{102}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\bf  {2}-C}\bf  {Approximation of Sequential Circuits}}{102}}
 \newlabel{subsec:approximation}{{\bf  {2}-C}{102}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\bf  {2}-C.1}\bf  {Data-path Separation}}{102}}
 \citation{korkmaz2006advocating}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\bf  {2}-C.1}\bf  {Data-path Separation}}{103}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\bf  {2}-C.2}\bf  {High Variance Registers}}{103}}
 \newlabel{subsubsec:high_v}{{\bf  {2}-C.2}{103}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\bf  {2}-C.3}\bf  {Coarse-grained Approximation}}{103}}
@@ -42,34 +43,30 @@
 \newlabel{fig:optimization_qr}{{3}{104}}
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Possible Approximation for benchmark circuit \emph  {QR} and \emph  {fpu100} for different quality goals}}{104}}
 \newlabel{tab:approx}{{II}{104}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Possible approximation, in terms of tolerated error probabilities, for benchmark circuit \emph  {viterbi} for varying signal qualities and a target BER=$0.0$}}{104}}
+\newlabel{fig:power_viterbi}{{4}{104}}
 \citation{*}
 \bibstyle{IEEEtran}
-\bibdata{IEEEabrv,islped}
+\bibdata{islped}
 \bibcite{han_approximate_2013}{1}
 \bibcite{herkersdorf2014resilience}{2}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Possible approximation, in terms of tolerated error probabilities, for benchmark circuit \emph  {viterbi} for varying signal qualities and a target BER=$0.0$}}{105}}
-\newlabel{fig:power_viterbi}{{4}{105}}
+\bibcite{sampson_enerj:_2011}{3}
+\bibcite{huang_exploring_2011}{4}
+\bibcite{kahng_accuracy-configurable_2012}{5}
+\bibcite{nepal_abacus:_2014}{6}
+\bibcite{miao_approximate_2013}{7}
+\bibcite{shin_approximate_2010}{8}
+\bibcite{ranjan_aslan:_2014}{9}
+\bibcite{may2012fpga}{10}
+\bibcite{yates2009fixed}{11}
+\bibcite{may2014improving}{12}
+\bibcite{korkmaz2006advocating}{13}
+\bibcite{al2007fpu100}{14}
+\bibcite{gimmler-dumont_asic_2013}{15}
+\bibcite{fehrenz2014viterbi}{16}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\bf  {3}-B}\bf  {Power Evaluation}}{105}}
 \newlabel{subsec:power}{{\bf  {3}-B}{105}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Dynamic power consumption of benchmark circuit \emph  {QR} for different approximations based on varying signal qualities, when performing 8x8 ZF Equalization}}{105}}
 \newlabel{fig:power_qr}{{5}{105}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Power consumption of benchmark circuit \emph  {fpu100} (multiplication) for different approximations based on varying target qualities, when performing a sobel filter}}{105}}
-\newlabel{fig:power_fpu}{{6}{105}}
 \@writefile{toc}{\contentsline {section}{\numberline {\bf  {4}}\bf  {Conclusion}}{105}}
 \newlabel{sec:conclusion}{{\bf  {4}}{105}}
-\bibcite{sampson_enerj:_2011}{3}
-\bibcite{huang_exploring_2011}{4}
-\bibcite{gupta_impact:_2011}{5}
-\bibcite{kahng_accuracy-configurable_2012}{6}
-\bibcite{nepal_abacus:_2014}{7}
-\bibcite{miao_approximate_2013}{8}
-\bibcite{shin_approximate_2010}{9}
-\bibcite{choudhury_approximate_2008}{10}
-\bibcite{ranjan_aslan:_2014}{11}
-\bibcite{may2012fpga}{12}
-\bibcite{yates2009fixed}{13}
-\bibcite{korkmaz2006advocating}{14}
-\bibcite{al2007fpu100}{15}
-\bibcite{gimmler-dumont_asic_2013}{16}
-\bibcite{fehrenz2014viterbi}{17}
-\bibcite{may2014improving}{18}

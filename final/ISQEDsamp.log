@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.18)  18 MAY 2015 14:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.18)  27 MAY 2015 15:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -494,18 +494,18 @@ Package: listings 2013/08/26 1.5b (Carsten Heinz)
 (./ISQEDsamp.aux)
 \openout1 = `ISQEDsamp.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
  (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count141
@@ -569,15 +569,15 @@ e
 ))
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count147
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 39.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 41.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 39.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
 
-Underfull \hbox (badness 4660) in paragraph at lines 42--46
+Underfull \hbox (badness 4660) in paragraph at lines 44--48
 []\OT1/cmr/bx/n/10 Abstract\OT1/cmr/m/n/10 ---$ $ Ap-prox-i-mate Com-put-ing ha
 s re-cently
  []
@@ -590,7 +590,7 @@ s re-cently
 File: figs/metrics_qr.pdf Graphic file (type pdf)
 
 <use figs/metrics_qr.pdf>
-Package pdftex.def Info: figs/metrics_qr.pdf used on input line 87.
+Package pdftex.def Info: figs/metrics_qr.pdf used on input line 88.
 (pdftex.def)             Requested size: 249.92677pt x 154.46246pt.
 
 <figs/metrics_sobel.pdf, id=19, 254.50989pt x 157.29578pt>
@@ -599,165 +599,162 @@ File: figs/metrics_sobel.pdf Graphic file (type pdf)
 <use figs/metrics_sobel.pdf>
 Package pdftex.def Info: figs/metrics_sobel.pdf used on input line 94.
 (pdftex.def)             Requested size: 249.92677pt x 154.46802pt.
- [101]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [102 <./figs/metrics_qr.pdf> <./figs/metrics_sobel.pdf
+ [101] [102 <./figs/metrics_qr.pdf> <./figs/metrics_sobel.pdf
 
 pdfTeX warning: pdflatex (file ./figs/metrics_sobel.pdf): PDF inclusion: multip
 le pdfs with page group included in a single page
 >]
-Underfull \hbox (badness 10000) detected at line 113
+Underfull \hbox (badness 10000) detected at line 116
 []\OT1/cmr/m/n/8 1:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 114
+Underfull \hbox (badness 10000) detected at line 117
 []\OT1/cmr/m/n/8 2:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 115
-[]\OT1/cmr/m/n/8 3:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 116
-[]\OT1/cmr/m/n/8 4:[]
  []
 
 
 Underfull \hbox (badness 10000) detected at line 118
-[]\OT1/cmr/m/n/8 5:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 119
-[]\OT1/cmr/m/n/8 6:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 120
-[]\OT1/cmr/m/n/8 7:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 121
-[]\OT1/cmr/m/n/8 8:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 122
-[]\OT1/cmr/m/n/8 9:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 123
-[]\OT1/cmr/m/n/8 10:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 124
-[]\OT1/cmr/m/n/8 11:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 125
-[]\OT1/cmr/m/n/8 12:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 126
-[]\OT1/cmr/m/n/8 13:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 127
-[]\OT1/cmr/m/n/8 14:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 129
-[]\OT1/cmr/m/n/8 15:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 137
-[]\OT1/cmr/m/n/8 1:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 138
-[]\OT1/cmr/m/n/8 2:[]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 139
 []\OT1/cmr/m/n/8 3:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 140
+Underfull \hbox (badness 10000) detected at line 119
 []\OT1/cmr/m/n/8 4:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 141
+Underfull \hbox (badness 10000) detected at line 121
 []\OT1/cmr/m/n/8 5:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 142
+Underfull \hbox (badness 10000) detected at line 122
 []\OT1/cmr/m/n/8 6:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 143
+Underfull \hbox (badness 10000) detected at line 123
 []\OT1/cmr/m/n/8 7:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 144
+Underfull \hbox (badness 10000) detected at line 124
 []\OT1/cmr/m/n/8 8:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 145
+Underfull \hbox (badness 10000) detected at line 125
 []\OT1/cmr/m/n/8 9:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 146
+Underfull \hbox (badness 10000) detected at line 126
 []\OT1/cmr/m/n/8 10:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 147
+Underfull \hbox (badness 10000) detected at line 127
 []\OT1/cmr/m/n/8 11:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 148
+Underfull \hbox (badness 10000) detected at line 128
 []\OT1/cmr/m/n/8 12:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 149
+Underfull \hbox (badness 10000) detected at line 129
 []\OT1/cmr/m/n/8 13:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 150
+Underfull \hbox (badness 10000) detected at line 130
 []\OT1/cmr/m/n/8 14:[]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 151
+Underfull \hbox (badness 10000) detected at line 132
 []\OT1/cmr/m/n/8 15:[]
  []
 
 
+Underfull \hbox (badness 10000) detected at line 140
+[]\OT1/cmr/m/n/8 1:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 141
+[]\OT1/cmr/m/n/8 2:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 142
+[]\OT1/cmr/m/n/8 3:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 143
+[]\OT1/cmr/m/n/8 4:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 144
+[]\OT1/cmr/m/n/8 5:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 145
+[]\OT1/cmr/m/n/8 6:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 146
+[]\OT1/cmr/m/n/8 7:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 147
+[]\OT1/cmr/m/n/8 8:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 148
+[]\OT1/cmr/m/n/8 9:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 149
+[]\OT1/cmr/m/n/8 10:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 150
+[]\OT1/cmr/m/n/8 11:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 151
+[]\OT1/cmr/m/n/8 12:[]
+ []
+
+
 Underfull \hbox (badness 10000) detected at line 152
+[]\OT1/cmr/m/n/8 13:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 153
+[]\OT1/cmr/m/n/8 14:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 154
+[]\OT1/cmr/m/n/8 15:[]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 155
 []\OT1/cmr/m/n/8 16:[]
  []
 
@@ -765,10 +762,10 @@ Underfull \hbox (badness 10000) detected at line 152
 File: figs/optimization_qr.pdf Graphic file (type pdf)
 
 <use figs/optimization_qr.pdf>
-Package pdftex.def Info: figs/optimization_qr.pdf used on input line 182.
+Package pdftex.def Info: figs/optimization_qr.pdf used on input line 185.
 (pdftex.def)             Requested size: 249.92677pt x 154.46246pt.
 
-Overfull \hbox (3.0082pt too wide) in paragraph at lines 192--206
+Overfull \hbox (3.0082pt too wide) in paragraph at lines 195--209
  [][] 
  []
 
@@ -776,21 +773,22 @@ Overfull \hbox (3.0082pt too wide) in paragraph at lines 192--206
 File: figs/optimization_viterbi.pdf Graphic file (type pdf)
 
 <use figs/optimization_viterbi.pdf>
-Package pdftex.def Info: figs/optimization_viterbi.pdf used on input line 219.
+Package pdftex.def Info: figs/optimization_viterbi.pdf used on input line 222.
 (pdftex.def)             Requested size: 249.92677pt x 154.46246pt.
- [104 <./figs/optimization_qr.pdf>]
-<figs/power_qr.pdf, id=89, 253.04987pt x 120.25842pt>
+
+<figs/power_qr.pdf, id=71, 253.04987pt x 120.25842pt>
 File: figs/power_qr.pdf Graphic file (type pdf)
  <use figs/power_qr.pdf>
-Package pdftex.def Info: figs/power_qr.pdf used on input line 232.
+Package pdftex.def Info: figs/power_qr.pdf used on input line 235.
 (pdftex.def)             Requested size: 249.92677pt x 118.7736pt.
 
-<figs/power_fpu.pdf, id=90, 253.04987pt x 120.25842pt>
-File: figs/power_fpu.pdf Graphic file (type pdf)
+Underfull \vbox (badness 1762) has occurred while \output is active []
 
-<use figs/power_fpu.pdf>
-Package pdftex.def Info: figs/power_fpu.pdf used on input line 241.
-(pdftex.def)             Requested size: 249.92677pt x 118.7736pt.
+ [104 <./figs/optimization_qr.pdf> <./figs/optimization_viterbi.pdf
+
+pdfTeX warning: pdflatex (file ./figs/optimization_viterbi.pdf): PDF inclusion:
+ multiple pdfs with page group included in a single page
+>]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
@@ -807,15 +805,7 @@ Underfull \hbox (badness 10000) detected at line 29
 []\OT1/cmr/m/n/8 [2][]
  []
 
-[105 <./figs/optimization_viterbi.pdf> <./figs/power_qr.pdf
 
-pdfTeX warning: pdflatex (file ./figs/power_qr.pdf): PDF inclusion: multiple pd
-fs with page group included in a single page
-> <./figs/power_fpu.pdf
-
-pdfTeX warning: pdflatex (file ./figs/power_fpu.pdf): PDF inclusion: multiple p
-dfs with page group included in a single page
->]
 Underfull \hbox (badness 10000) detected at line 35
 []\OT1/cmr/m/n/8 [3][]
  []
@@ -831,62 +821,61 @@ Underfull \hbox (badness 10000) detected at line 48
  []
 
 
-Underfull \hbox (badness 10000) detected at line 55
+Underfull \hbox (badness 10000) detected at line 54
 []\OT1/cmr/m/n/8 [6][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 61
+Underfull \hbox (badness 10000) detected at line 60
 []\OT1/cmr/m/n/8 [7][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 67
-[]\OT1/cmr/m/n/8 [8][]
- []
-
-
-Underfull \hbox (badness 1902) in paragraph at lines 68--72
+Underfull \hbox (badness 1902) in paragraph at lines 61--65
 \OT1/cmr/m/n/8 con-straints,'' in \OT1/cmr/m/it/8 2013 IEEE/ACM In-ter-na-tiona
 l Conf. on
  []
 
 
-Underfull \hbox (badness 10000) detected at line 73
+Underfull \hbox (badness 10000) detected at line 66
+[]\OT1/cmr/m/n/8 [8][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 72
 []\OT1/cmr/m/n/8 [9][]
  []
 
-) [106
-
-] (./ISQEDsamp.aux) ) 
+) [105 <./figs/power_qr.pdf>] (./ISQEDsamp.aux) ) 
 Here is how much of TeX's memory you used:
- 13142 strings out of 493304
- 234973 string characters out of 6139871
- 302699 words of memory out of 5000000
- 16288 multiletter control sequences out of 15000+600000
+ 13133 strings out of 493304
+ 234782 string characters out of 6139871
+ 296677 words of memory out of 5000000
+ 16280 multiletter control sequences out of 15000+600000
  26927 words of font info for 100 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,14n,57p,2374b,307s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on ISQEDsamp.pdf (7 pages, 360679 bytes).
+ 63i,14n,57p,2352b,307s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmti8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/u
+hvr8a.pfb>
+Output written on ISQEDsamp.pdf (6 pages, 355689 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 147 compressed objects within 2 object streams
+ 167 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
